@@ -1,61 +1,49 @@
 import React, { Component } from 'react'
+import TableDataRow from './TableDataRow'
+
 
 export default class Table extends Component {
+
+  mappingData = ()=>{
+    this.props.data.map (  (value,key) =>
+        <TableDataRow
+        key={key}
+        id={value.id}
+        name={value.name}
+        Permission ={value.Permission}
+        Tel={value.Tel}
+        
+        ></TableDataRow>    
+    )
+  }
     render() {
         return (
-            <div class="col-9">
-            <table class="table table-striped table-inverse table-hover">
-                <thead class="thead-inverse">
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên</th>
-                        <th>Điện thoại</th>
-                        <th>Quyền</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td>Tuấn</td>
-                        <td>0977110254</td>
-                        <td>Admin</td>
-                        <td>
-                            <div class="btn-group">
-                                <div class="btn btn-warning sua"> <i class="fas fa-edit    ">Sửa</i> </div>
-                                <div class="btn btn-danger xoa"> <i class="fas fa-delete    ">Xoá</i> </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td>Tuấn</td>
-                        <td>0977110254</td>
-                        <td>Admin</td>
-                        <td>
-                            <div class="btn-group">
-                                <div class="btn btn-warning sua"> <i class="fas fa-edit    ">Sửa</i> </div>
-                                <div class="btn btn-danger xoa"> <i class="fas fa-delete    ">Xoá</i> </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">3</td>
-                        <td>Tuấn</td>
-                        <td>0977110254</td>
-                        <td>Admin</td>
-                        <td>
-                            <div class="btn-group">
-                                <div class="btn btn-warning sua"> <i class="fas fa-edit    ">Sửa</i> </div>
-                                <div class="btn btn-danger xoa"> <i class="fas fa-delete    ">Xoá</i> </div>
-                            </div>
-                        </td>
-                    </tr>
-
-                </tbody>
+            <div className="col">
+            <table className="table table-striped table-inverse table-hover">
+              <thead className="thead-inverse">
+                <tr>
+                  <th>STT</th>
+                  <th>Tên</th>
+                  <th>SDT</th>
+                  <th>Quyền</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+              { this.props.data.map (  (value,key) =>
+                <TableDataRow
+                key={key}
+                ID={value.ID}
+                Name={value.Name}
+                Permission ={value.Permission}
+                Tel={value.Tel}
+                
+                ></TableDataRow>    
+            )}
+              </tbody>
             </table>
-        </div>
-
+          </div>
+          
         )
     }
 }
