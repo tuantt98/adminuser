@@ -33,6 +33,7 @@ export default class Table extends Component {
               { this.props.data.map (  (value,key) =>
                 <TableDataRow
                 key={key}
+                stt ={key+1}
                 ID={value.ID}
                 Name={value.Name}
                 Permission ={value.Permission}

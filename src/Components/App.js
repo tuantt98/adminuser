@@ -6,6 +6,8 @@ import Search from './Search'
 import Table from './Table'
 import Add from './Add'
 import data from './data'
+import uuidv1 from 'uuid/v1'
+
 
 export default class App extends Component {
 
@@ -30,8 +32,25 @@ export default class App extends Component {
     this.setState({
       searchText: dataSearch
     });
-    // console.log(this.state.searchText)
+    
   }
+  getNewUserData = (Name,Tel,Permission) => {
+    // var item ={Name,Tel,Permission}
+    // console.log({Name,Tel,Permission})
+    let item = {}
+    item.ID = uuidv1(); 
+    item.Name = Name
+    item.Tel = Tel
+    item.Permission = Permission
+    let items = this.state.data
+    items.push(item)
+    console.log(items)
+
+    this.setState({
+      data: items
+    });
+  }
+
 
 
   render() {
@@ -53,7 +72,7 @@ export default class App extends Component {
               <hr />
         </div>
       <Table data={filterData} ></Table>
-      <Add hienThiForm = {this.state.hienThiForm} ></Add>
+      <Add add={(Name,Tel,Permission) => this.getNewUserData(Name,Tel,Permission)} hienThiForm = {this.state.hienThiForm} ></Add>
       </div>
       </div>
 

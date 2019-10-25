@@ -20,12 +20,15 @@ export default class Add extends Component {
     this.setState({
       [name]:value
     });
+
+    // var item = {...this.state}
+   
   }
     kiemTraTrangThai = () => {
-      console.log(this.state)
       if(this.props.hienThiForm){
         return (
           <div className="col">
+          <form>
           <div className="card border-primary mb-3 mt-2" style={{maxWidth: '18rem'}}>
           <div className="card-header">Thêm mới</div>
           <div className="card-body text-primary">
@@ -44,10 +47,11 @@ export default class Add extends Component {
               <div className="invalid-feedback">Example invalid custom select feedback</div>
             </div>
             <div className="form-group">
-              <div className="btn btn-block btn-primary">Thêm mới</div>
+              <input type="reset" className="btn btn-block btn-primary" onClick={() => this.props.add(this.state.Name,this.state.Tel,this.state.Permission)} value="Thêm mới"/>
             </div>
           </div>
         </div>
+        </form>
         </div>
         )
       }

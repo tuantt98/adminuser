@@ -11,7 +11,7 @@ export default class TableDataRow extends Component {
     render() {
         return (
                   <tr>
-                  <td>{this.props.ID}</td>
+                  <td>{this.props.stt}</td>
                   <td> {this.props.Name} </td>
                   <td> {this.props.Tel}</td>
                   <td>{
