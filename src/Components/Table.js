@@ -4,18 +4,11 @@ import TableDataRow from './TableDataRow'
 
 export default class Table extends Component {
 
-  mappingData = ()=>{
-    this.props.data.map (  (value,key) =>
-        <TableDataRow
-        key={key}
-        id={value.id}
-        name={value.name}
-        Permission ={value.Permission}
-        Tel={value.Tel}
-        
-        ></TableDataRow>    
-    )
+  deleteButton  = (idUser) => {
+    this.props.deleteButton(idUser)
+
   }
+
     render() {
         return (
             <div className="col">
@@ -38,7 +31,9 @@ export default class Table extends Component {
                 Name={value.Name}
                 Permission ={value.Permission}
                 Tel={value.Tel}
-                
+                editFucClick={ (user)=> this.props.editFuc(value)}
+                changeEditUserStatus={()=> this.props.changeEditUserStatus()}
+                deleteButton = {(idUser) => this.deleteButton(idUser) }
                 ></TableDataRow>    
             )}
               </tbody>

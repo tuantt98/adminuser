@@ -15,8 +15,22 @@ export default class App extends Component {
     super(props);
     this.state = {
       hienThiForm: false,
-      data: data,
-      searchText:''
+      data: [],
+      searchText:'',
+      editUserStatus: false,
+      userEditObject: {}
+    }
+  }
+  
+  componentWillMount() {
+    // kiểm tra localstogare
+    if(localStorage.getItem('userData') == null){
+      localStorage.setItem('userData',JSON.stringify(data))
+    }else {
+      let temp = JSON.parse(localStorage.getItem('userData'));
+      this.setState({
+        data: temp
+      });
     }
   }
   
@@ -27,6 +41,11 @@ export default class App extends Component {
     });
   }
 
+  changeEditUserStatus = () =>{
+    this.setState({
+      editUserStatus: !this.state.editUserStatus
+    });
+  }
   getTextSearch = (dataSearch) => {
 
     this.setState({
@@ -34,9 +53,15 @@ export default class App extends Component {
     });
     
   }
+  edieUser = (user) => {
+    // console.log('Contected.....')
+    // console.log(user)
+    this.setState({
+      userEditObject: user
+    });
+  }
   getNewUserData = (Name,Tel,Permission) => {
-    // var item ={Name,Tel,Permission}
-    // console.log({Name,Tel,Permission})
+   
     let item = {}
     item.ID = uuidv1(); 
     item.Name = Name
@@ -44,16 +69,43 @@ export default class App extends Component {
     item.Permission = Permission
     let items = this.state.data
     items.push(item)
-    console.log(items)
+    // console.log(items)
 
     this.setState({
       data: items
     });
+    localStorage.setItem('userData',JSON.stringify(items))
+  }
+  getUserEdit = (user) => {
+
+    // console.log(user)
+    this.state.data.forEach((value, key) => {
+      if(value.ID === user.ID){
+        value.ID = user.ID
+        value.Name = user.Name
+        value.Permission = user.Permission
+        value.Tel = user.Tel
+      }
+    })
+    localStorage.setItem('userData',JSON.stringify(this.state.data))
   }
 
+  deleteButton  = (idUser) => {
+    // console.log('APP: '+idUser)
 
+    let arrTemp = this.state.data.filter( x => x.ID !== idUser)
+
+    this.setState({
+      data: arrTemp
+    });
+
+    localStorage.setItem('userData',JSON.stringify(arrTemp))
+  }
 
   render() {
+
+    
+
     let filterData = this.state.data.filter( 
       value =>  value.Name.indexOf(this.state.searchText ) !== -1 )
     return (
@@ -63,15 +115,23 @@ export default class App extends Component {
       <div className="container">
       <div className="row">
         <Search 
+        getUserEdit={ (user) => this.getUserEdit(user) }
+        userEditObject={this.state.userEditObject}
         getTextSearch={(dataSearch) => this.getTextSearch(dataSearch)}
         ketNoi={() => this.doiTrangThai()}
         hienThiForm = {this.state.hienThiForm}
-
+        editUserStatus={this.state.editUserStatus}
+        changeEditUserStatus={()=> this.changeEditUserStatus()}
         ></Search>
         <div className="col-12">
               <hr />
         </div>
-      <Table data={filterData} ></Table>
+      <Table
+      deleteButton = {(idUser) => this.deleteButton(idUser)}
+       editFuc= {(user)=> this.edieUser(user) } 
+       data={filterData} 
+       changeEditUserStatus={()=> this.changeEditUserStatus()}>
+       </Table>
       <Add add={(Name,Tel,Permission) => this.getNewUserData(Name,Tel,Permission)} hienThiForm = {this.state.hienThiForm} ></Add>
       </div>
       </div>

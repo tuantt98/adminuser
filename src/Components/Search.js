@@ -1,14 +1,35 @@
 import React, { Component } from 'react'
+import EditUser from './EditUser'
 
 export default class Search extends Component {
 
   constructor(props) {
     super(props);
     this.state={
-      TempValue:''
+      TempValue:'',
+      userObj:{}
     }
   }
   
+
+  getUserEdit = (user) => {
+    this.setState({
+      userObj: user
+    });
+
+    this.props.getUserEdit(user)
+  }
+
+  isShowEditForm = () => {
+    if(this.props.editUserStatus){
+      return <EditUser 
+      changeEditUserStatus={()=> this.props.changeEditUserStatus()}
+      userEditObject={this.props.userEditObject}
+      getUserEdit={(user) => this.getUserEdit(user)}
+      ></EditUser>
+    }
+     
+  }
   isChange = (event) => {
     this.setState({
       TempValue:event.target.value
@@ -26,25 +47,25 @@ export default class Search extends Component {
     render() {
       
         return (
-            <div>
+            
             <div className="col-12">
+         
+                {this.isShowEditForm()}
               <div className="form-group">
-                <div className="btn-group">
+                <div className="btn-group btn-block">
                   <input type="text" 
                   className="form-control" 
-                   placeholder="Nhập từ khoá( tên)"  
-
+                   placeholder="Nhập từ khoá(tên)"  
                      onChange={(event)=>this.isChange(event)}
-
                    />
                   <div className="btn btn-info" onClick={(dataSearch) => this.props.getTextSearch(this.state.TempValue)}>Tìm</div>
                 </div>
+
                 {this.hienThiNut()}
-               
               </div>
             </div>
            
-          </div>
+         
           
           
         )
